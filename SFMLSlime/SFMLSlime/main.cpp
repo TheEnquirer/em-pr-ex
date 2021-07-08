@@ -38,7 +38,7 @@ int main()
     r1.setSize(sf::Vector2f(3, 3));
     r1.setPosition(0, 0);
 
-    std::vector<Agent> agents(20);
+    std::vector<Agent> agents(200);
 
 
     int i = 0;
@@ -80,10 +80,21 @@ int main()
 	for (auto& agent : agents) {
 	    // move agent
 
-	    int newx = static_cast<int>(round(5 * sin(agent.angle)));
-	    int newy = static_cast<int>(round(5 * cos(agent.angle)));
-	    agent.x += newx;
-	    agent.y += newy;
+	    int newx = agent.x + static_cast<int>(round(5 * sin(agent.angle)));
+	    int newy = agent.y + static_cast<int>(round(5 * cos(agent.angle)));
+
+	    if (newx < 0 || newx > WIDTH || newy < 0 || newy > HEIGHT*2)
+	    {
+		newx = std::min(WIDTH, std::max(0, newx));
+		newy = std::min(WIDTH, std::max(0, newy));
+		//newx = 0;
+		//newy = 0;
+		agent.angle = rand() % 7;
+
+	    }
+
+	    agent.x = newx;
+	    agent.y = newy;
 
 	    // update canvas
 	    canvas[agent.x][agent.y] = 255;
