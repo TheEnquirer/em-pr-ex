@@ -44,11 +44,11 @@ int main()
     int i = 0;
     for (auto& agent : agents)
     {
-	//agent.x = rand() % 100;
-	//agent.y = rand() % 100;
-	agent.x = i+20;
-	agent.y = i+20;
-	agent.angle = i;
+	agent.x = rand() % 100;
+	agent.y = rand() % 100;
+	//agent.x = i+20;
+	//agent.y = i+20;
+	agent.angle = 1;
 	i++;
     }
 
@@ -82,7 +82,7 @@ int main()
 
 	    int newx = static_cast<int>(round(5 * sin(agent.angle)));
 	    int newy = static_cast<int>(round(5 * cos(agent.angle)));
-	    agent.y += newx;
+	    agent.x += newx;
 	    agent.y += newy;
 
 	    // update canvas
