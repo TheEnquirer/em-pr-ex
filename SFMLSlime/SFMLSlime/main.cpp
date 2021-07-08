@@ -10,13 +10,25 @@ struct Agent
 };
 
 
+//Agent updateAgent(Agent agent) {
+
+//    agent.x++;
+//    return agent;
+
+//}
+
+const int WIDTH = 256;
+const int HEIGHT = 160;
+int canvas[WIDTH][HEIGHT] = {0};
+
 int main()
 {
     //##########################
     //		SETUP
     //##########################
-    sf::RenderWindow window( sf::VideoMode(2560, 1600), "Test" );
+    sf::RenderWindow window( sf::VideoMode(WIDTH, HEIGHT), "Test" );
     window.setFramerateLimit(60);
+
 
 
     //##################################
@@ -28,18 +40,21 @@ int main()
 
     std::vector<Agent> agents(20);
 
-    //for (auto i = agents.begin(); i != agents.end(); i++)
-    //{
-    //    agents[i].x = i;
-    //    agents[i].y = i;
-    //}
+
     int i = 0;
     for (auto& agent : agents)
     {
-	agent.x = i;
-	agent.y = i;
+	//agent.x = rand() % 100;
+	//agent.y = rand() % 100;
+	agent.x = i+20;
+	agent.y = i+20;
+	agent.angle = i;
 	i++;
     }
+
+
+
+    // loop over canvas, fade and blur
 
 
 
@@ -62,23 +77,54 @@ int main()
 	//		DRAW STEP
 	//####################################
 
+	for (auto& agent : agents) {
+	    // move agent
 
-        window.clear(); // clear the frame -- draw below
+	    int newx = static_cast<int>(round(5 * sin(agent.angle)));
+	    int newy = static_cast<int>(round(5 * cos(agent.angle)));
+	    agent.y += newx;
+	    agent.y += newy;
+	    //std::cout << newx << std::endl;
+	    //agent.x += static_cast<int>(round(5 * sin(agent.angle)));
+	    //agent.y += static_cast<int>(round(5 * sin(agent.angle)));
+	    //agent.y += 1;
+	    //agent.y += 1;
 
 
-
-
-        //window.draw(r1);
-	//r1.move(1, 1);
-
-	for (auto& agent : agents)
-	{
-	    sf::RectangleShape r2;
-	    r2.setSize(sf::Vector2f(3, 3));
-	    r2.setPosition(agent.x, agent.y);
-	    window.draw(r2);
+	    // update canvas
+	    canvas[agent.x][agent.y] = 255;
 	}
 
+	window.clear(); // clear the frame -- draw below
+
+
+
+
+	window.draw(r1);
+	//r1.move(1, 1);
+
+	//for (auto& agent : agents)
+	//{
+	//    agent = updateAgent(agent);
+	//    sf::RectangleShape r2;
+	//    r2.setSize(sf::Vector2f(3, 3));
+	//    r2.setPosition(agent.x, agent.y);
+	//    window.draw(r2);
+	//}
+	for(int x = 0; x < WIDTH; x++) // Iterating over rows
+	{
+	    for(int y = 0; y < HEIGHT; y++)
+	    {
+		if (canvas[x][y] != 0)
+		{
+		    sf::RectangleShape r2;
+		    r2.setSize(sf::Vector2f(1, 1));
+		    r2.setPosition(x, y);
+		    r2.setFillColor(sf::Color(canvas[x][y], canvas[x][y], canvas[x][y], 225));
+		    window.draw(r2);
+		}
+	    }
+	}
 
         window.display(); // display
 
@@ -87,7 +133,19 @@ int main()
 }
 
 
+//std::vector<Agent> updateLocations(std::vector<Agent> agents) {
 
+//    // modify agents
+
+//    int i = 0;
+//    for (auto& agent : agents)
+//    {
+//        agent.x++;
+//        i++;
+//    }
+
+//    return agents
+//}
 
 
 
