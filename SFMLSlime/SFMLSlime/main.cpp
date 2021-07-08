@@ -22,11 +22,15 @@
 int main()
 {
     sf::RenderWindow window( sf::VideoMode( 640, 480 ), "Test" );
-    
+    window.setFramerateLimit(60);
+
+    sf::CircleShape shape (2);
+
     while ( window.isOpen( ) )
     {
         sf::Event event;
-        
+
+
         while ( window.pollEvent( event ))
         {
             switch( event.type ) {
@@ -35,10 +39,14 @@ int main()
                     break;
             }
         }
-        
+
         window.clear();
-        
+
+        shape.setPosition(100, 100);
+        window.draw(shape);
+
         window.display();
-        
+
     }
+
 }
