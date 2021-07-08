@@ -17,8 +17,8 @@ struct Agent
 
 //}
 
-const int WIDTH = 256;
-const int HEIGHT = 160;
+const int WIDTH = 2560;
+const int HEIGHT = 1600;
 int canvas[WIDTH][HEIGHT] = {0};
 
 int main()
@@ -84,12 +84,6 @@ int main()
 	    int newy = static_cast<int>(round(5 * cos(agent.angle)));
 	    agent.y += newx;
 	    agent.y += newy;
-	    //std::cout << newx << std::endl;
-	    //agent.x += static_cast<int>(round(5 * sin(agent.angle)));
-	    //agent.y += static_cast<int>(round(5 * sin(agent.angle)));
-	    //agent.y += 1;
-	    //agent.y += 1;
-
 
 	    // update canvas
 	    canvas[agent.x][agent.y] = 255;
@@ -117,6 +111,14 @@ int main()
 	    {
 		if (canvas[x][y] != 0)
 		{
+		    int reduce = canvas[x][y] - 3;
+		    if (reduce < 0)
+		    {
+			canvas[x][y] = 0;
+		    } else
+		    {
+			canvas[x][y] = reduce;
+		    }
 		    sf::RectangleShape r2;
 		    r2.setSize(sf::Vector2f(1, 1));
 		    r2.setPosition(x, y);
