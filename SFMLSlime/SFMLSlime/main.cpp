@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <cmath>
 
 
 struct Agent
@@ -10,15 +11,14 @@ struct Agent
 };
 
 
-//Agent updateAgent(Agent agent) {
+//float jjj
+float lerp(float a, float b, float f)
+{
+    return a + f * (b - a);
+}
 
-//    agent.x++;
-//    return agent;
-
-//}
-
-const int WIDTH = 2560;
-const int HEIGHT = 1600;
+const int WIDTH = 256;
+const int HEIGHT = 160;
 int canvas[WIDTH][HEIGHT] = {0};
 
 int main()
@@ -28,6 +28,7 @@ int main()
     //##########################
     sf::RenderWindow window( sf::VideoMode(WIDTH, HEIGHT), "Test" );
     window.setFramerateLimit(60);
+    float time = 0;
 
 
 
@@ -48,7 +49,7 @@ int main()
 	agent.y = rand() % 100;
 	//agent.x = i+20;
 	//agent.y = i+20;
-	agent.angle = 1;
+	agent.angle = rand() % 7;
 	i++;
     }
 
@@ -63,6 +64,8 @@ int main()
     //#################################
     while ( window.isOpen( ) )
     {
+	time++;
+
         sf::Event event;
 
         while ( window.pollEvent( event ))
@@ -78,10 +81,17 @@ int main()
 	//####################################
 
 	for (auto& agent : agents) {
-	    // move agent
+	    // modify angle with sensor
 
-	    int newx = agent.x + static_cast<int>(round(5 * sin(agent.angle)));
-	    int newy = agent.y + static_cast<int>(round(5 * cos(agent.angle)));
+
+
+
+
+
+
+	    // move agent
+	    int newx = agent.x + static_cast<int>(round(3 * sin(agent.angle)));
+	    int newy = agent.y + static_cast<int>(round(3 * cos(agent.angle)));
 
 	    if (newx < 0 || newx > WIDTH || newy < 0 || newy > HEIGHT*2)
 	    {
@@ -122,7 +132,7 @@ int main()
 	    {
 		if (canvas[x][y] != 0)
 		{
-		    int reduce = canvas[x][y] - 3;
+		    int reduce = canvas[x][y] * 1;
 		    if (reduce < 0)
 		    {
 			canvas[x][y] = 0;
@@ -138,6 +148,38 @@ int main()
 		}
 	    }
 	}
+
+	for(int x = 0; x < WIDTH; x++) // Iterating over rows
+	{
+	    for(int y = 0; y < HEIGHT; y++)
+	    {
+		float sum = 0;
+		for (int ox = -1; ox <= 1; ox++)
+		{
+		    for (int oy = -1; oy <= 1; oy++)
+		    {
+			int xval = x + ox;
+			int yval = y + oy;
+
+			if (xval >= 0 && xval < WIDTH && yval >= 0 && yval < 2*HEIGHT)
+			{
+			    sum += canvas[xval][yval];
+			}
+		    }
+		}
+
+		float blur = sum / 9;
+
+		float zero = 0;
+		float diffused = lerp(canvas[x][y], blur, 1.02);
+		float max_sec = diffused - 0.001;
+		float evaporated = std::max(zero, max_sec);
+		//std::cout << sum << blur << diffused << std::endl;
+		canvas[x][y] = evaporated;
+
+	    }
+	}
+
 
         window.display(); // display
 
