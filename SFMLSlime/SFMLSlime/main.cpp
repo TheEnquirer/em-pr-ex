@@ -2,8 +2,10 @@
 #include <iostream>
 #include <cmath>
 
-const int WIDTH = 256 * 2;
-const int HEIGHT = 160 * 2;
+//const int WIDTH = 256 * 3;
+//const int HEIGHT = 160 * 3;
+const int WIDTH = 320;
+const int HEIGHT = 180;
 int canvas[WIDTH][HEIGHT] = {0};
 
 struct Agent
@@ -22,7 +24,7 @@ float lerp(float a, float b, float f)
 
 float see(Agent agent, float sensorSpacingOffset)
 {
-    int sensorSize = 10;
+    int sensorSize = 3;
     float sensorAngle = agent.angle + sensorSpacingOffset;
     float sensorDirX = sin(sensorAngle);
     float sensorDirY = cos(sensorAngle);
@@ -65,20 +67,24 @@ int main()
     //		INIT object
     //##################################
     sf::RectangleShape r1;
-    r1.setSize(sf::Vector2f(3, 3));
+    r1.setSize(sf::Vector2f(1, 1));
     r1.setPosition(0, 0);
 
-    std::vector<Agent> agents(1800);
+
+    float AGENT_COUNT = 850;
+    std::vector<Agent> agents(AGENT_COUNT);
 
 
     int i = 0;
     for (auto& agent : agents)
     {
-	agent.x = rand() % WIDTH;
-	agent.y = rand() % HEIGHT;
-	//agent.x = i+20;
-	//agent.y = i+20;
-	agent.angle = rand() % 7;
+	//agent.x = rand() % WIDTH / 3;
+	//agent.y = rand() % HEIGHT / 3;
+	//agent.angle = rand() % 7;
+
+	agent.x = WIDTH / 2;
+	agent.y = HEIGHT / 2;
+	agent.angle = (AGENT_COUNT / i) * 7;
 	i++;
     }
 
@@ -112,13 +118,14 @@ int main()
 	for (auto& agent : agents) {
 	    // modify angle with sensor
 	    float sensorSpacing = 2;
-	    float turnSpeed = 0.5;
+	    float turnSpeed = 0.6;
 
 	    float wf = see(agent, 0);
 	    float wl = see(agent, sensorSpacing);
 	    float wr = see(agent, -sensorSpacing);
 
 	    float stear = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+	    //float stear = 1;
 	    //std::cout << wf << ":" << wl << ":" << wr << std::endl;
 
 	    if (wf > wl && wf > wr)
@@ -127,7 +134,7 @@ int main()
 
 	    } else if (wf < wl && wf < wr)
 	    {
-		agent.angle += (stear - 0.5) * 2 * turnSpeed;
+		agent.angle += (stear - 0.5) * 1 * turnSpeed;
 		//std::cout << "hii";
 
 	    } else if (wr > wl)
@@ -143,8 +150,8 @@ int main()
 
 
 	    // move agent
-	    int newx = agent.x + static_cast<int>(round(3 * sin(agent.angle)));
-	    int newy = agent.y + static_cast<int>(round(3 * cos(agent.angle)));
+	    int newx = agent.x + static_cast<int>(round(1 * sin(agent.angle)));
+	    int newy = agent.y + static_cast<int>(round(1 * cos(agent.angle)));
 
 	    if (newx < 0 || newx > WIDTH || newy < 0 || newy > HEIGHT*2)
 	    {
@@ -185,7 +192,7 @@ int main()
 	    {
 		if (canvas[x][y] != 0)
 		{
-		    int reduce = canvas[x][y] * 0.97;
+		    int reduce = canvas[x][y] * 0.99;
 		    if (reduce < 0)
 		    {
 			canvas[x][y] = 0;
@@ -224,8 +231,8 @@ int main()
 		float blur = sum / 9;
 
 		float zero = 0;
-		float diffused = lerp(canvas[x][y], blur, 0.8);
-		float max_sec = diffused - 0.01;
+		float diffused = lerp(canvas[x][y], blur, 0.3);
+		float max_sec = diffused - 0.005;
 		float evaporated = std::max(zero, max_sec);
 		//std::cout << sum << blur << diffused << std::endl;
 		canvas[x][y] = evaporated;
