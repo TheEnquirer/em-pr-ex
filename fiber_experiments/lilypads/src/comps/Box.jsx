@@ -5,7 +5,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 function Box(props) {
     const deg2rad = degrees => degrees * (Math.PI / 180);
     useThree(({camera}) => {
-	//camera.rotation.set(deg2rad(63), 0, deg2rad(46));
+	camera.rotation.set(0, 0, 0);
 	//camera.lookAt
     })
 
@@ -15,7 +15,7 @@ function Box(props) {
     const [hovered, hover] = useState(false)
     const [clicked, click] = useState(false)
     // Subscribe this component to the render-loop, rotate the mesh every frame
-    useFrame((state, delta) => (ref.current.rotation.x += 0.01))
+    useFrame((state, delta) => (ref.current.rotation.x += 0.00))
     // Return the view, these are regular Threejs elements expressed in JSX
     return (
 	<mesh
