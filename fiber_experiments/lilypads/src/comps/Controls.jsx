@@ -17,9 +17,44 @@ export default function Controls() {
     //console.log(blendCam)
 
     let { camera, gl } = useThree()
+    const pos = {
+	x: 1.2266027759623142,
+	y: 1.7926754167099483,
+	z: 0.4485769457577807
+    }
+    const rot = {
+	x: -1.0419324004883406,
+	y: -0.1141716882838732,
+	z: -0.19252950318302414
+    } 
+    const mat = {
+	"elements": [
+	    0.9862352120633925,
+	    0,
+	    0.16534843962455542,
+	    0,
+	    0.12958528972939717,
+	    0.62112641882115,
+	    -0.772922780443274,
+	    0,
+	    -0.10270228416166523,
+	    0.783710387734151,
+	    0.6125767453842523,
+	    0,
+	    1.2266027759623142,
+	    1.7926754167099483,
+	    0.44857694575778106,
+	    1
+	]
+    }
+
+    //camera.position.set(pos.x, pos.y, pos.z)
+    //camera.rotation.set(rot.x, rot.y, rot.z)
+    camera.matrix.set(mat)
+    camera.updateProjectionMatrix();
 
     useThree(({camera}) => {
-	camera = blenderCamera
+	//camera = blenderCamera
 	//camera.position.x = blenderCamera.parent.position.x + 1.2
 	//camera.position.y = blenderCamera.parent.position.y - 1
 	//camera.position.z = blenderCamera.parent.position.z - 1.8
@@ -48,17 +83,19 @@ export default function Controls() {
     });
 
     useFrame((state, delta) => {
-	setC(blenderCamera)
+	//setC(blenderCamera)
 	//console.log(!!c)
-	//controls.current.update()
+	controls.current.update()
+	//console.log(camera)
     })
 
     return <orbitControls 
 	ref={controls} 
-	args={[c ? c : camera, gl.domElement]}
+	args={[camera, gl.domElement]}
 	//enableDamping
 	dampingFactor={0.1}
 	rotateSpeed={0.5}
+	//rotation={[-1.0419324004883406, -0.1141716882838732, -0.19252950318302414]}
 	//enabled={false}
     />
 }
