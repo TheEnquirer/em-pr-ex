@@ -20,10 +20,12 @@ export default function App() {
 
     return (
 	<div className="w-screen h-screen border-0 border-red-400">
-	    <Canvas>
+	    <Canvas
+		camera={{ position: [1.4, 1.8, 0.3], rotation: [-1.1, -0.1, -0.1]}} controls={false}
+	    >
 		<Suspense fallback={null}>
 		    <Lily />
-		    <Controls />
+		    {/*<Controls />*/}
 		</Suspense>
 		<Plane />
 		<ambientLight intensity={0.5} />

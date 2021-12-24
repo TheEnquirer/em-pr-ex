@@ -5,6 +5,11 @@ import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import SimplexNoise from 'simplex-noise';
 
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+
 function Lily(props) {
     const SPED = 0.01;
     const [objs, setObjs] = useState([])
@@ -32,8 +37,8 @@ function Lily(props) {
 	tobjs = tobjs.map((e, i) => {
 	    return <primitive 
 		object={gltf.scene.children[i]} 
-		position={[e.position.x, e.position.y, e.position.z]}
-		//position={[Math.random() * 3, e.position.y, Math.random() * 3]}
+		//position={[e.position.x, e.position.y, e.position.z]}
+		position={[getRandomArbitrary(-1, 5), e.position.y, getRandomArbitrary(-4, 2)]}
 		onClick={() => { }}
 	    />
 	})
