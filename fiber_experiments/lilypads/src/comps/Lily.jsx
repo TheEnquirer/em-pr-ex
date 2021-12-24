@@ -19,8 +19,8 @@ function Lily(props) {
 		//position={[0, 0.1, 0]}
 		position={[e.position.x, e.position.y + 0.1, e.position.z]}
 		onClick={() => {
-		    console.log("clicked!", i, objs[i].props.object.position.y)
-		    objs[i].props.object.position.y = -1;
+		    //console.log("clicked!", i, objs[i].props.object.position.y)
+		    //objs[i].props.object.position.y = -1;
 		    //objs[i].props.position.y = -1;
 		}}
 	    />
@@ -38,25 +38,25 @@ function Lily(props) {
 	//setT(t+0.1)
 	setObjs(objs.map((e, i) => {
 	    //let val = simplex.noise3D(e.props.object.position.x, e.props.object.position.z, e.props.object.position.y)
-	    let val = Math.sin(t) / 500
-	    //let val = Math.sin(t) / 100
-	    if (Math.sin(t) < 0.1 && Math.sin(t) > -0.1) {
-	    //if (Math.sin(t) > 0.9) {
-		if (!e.props.object.flip) {
-		    e.props.object.direction = (Math.random() - 0.5) * 2
-		    console.log("resetting direction")
-		}
-		e.props.object.flip = true;
-	    }
-	    else { e.props.object.flip = false; }
+	//    let val = Math.sin(t) / 500
+	//    //let val = Math.sin(t) / 100
+	//    if (Math.sin(t) < 0.1 && Math.sin(t) > -0.1) {
+	//    //if (Math.sin(t) > 0.9) {
+	//        if (!e.props.object.flip) {
+	//            e.props.object.direction = (Math.random() - 0.5) * 2
+	//            console.log("resetting direction")
+	//        }
+	//        e.props.object.flip = true;
+	//    }
+	//    else { e.props.object.flip = false; }
 
-	    //let slope = -0.5
-	//    //console.log(val, e.props.position)
-	//    //console.log(e.props.position)
-	//    //e.props.position[2] += 0.1
+	//    //let slope = -0.5
+	////    //console.log(val, e.props.position)
+	////    //console.log(e.props.position)
+	////    //e.props.position[2] += 0.1
 
-	    e.props.object.position.z += val
-	    e.props.object.position.x += e.props.object.direction * val
+	//    e.props.object.position.z += val
+	//    e.props.object.position.x += e.props.object.direction * val
 
 	//    //console.log(e.props.position)
 	    return e
