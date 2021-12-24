@@ -9,7 +9,7 @@ import Controls from './comps/Controls.jsx'
 
 const Plane = () => {
     return (
-	<mesh rotation-x={Math.PI * -0.5} position={[0, 0, 0]} >
+	<mesh rotation-x={Math.PI * -0.5} position={[0, -0.1, 0]} >
 	    <planeBufferGeometry args={[40, 40]} />
 	    <meshStandardMaterial color={"lightBlue"} />
 	</mesh>
@@ -23,6 +23,7 @@ export default function App() {
 	    <Canvas>
 		<Suspense fallback={null}>
 		    <Lily />
+		    <Controls />
 		</Suspense>
 		<Plane />
 		<ambientLight intensity={0.5} />
@@ -30,7 +31,6 @@ export default function App() {
 		<pointLight position={[-10, -10, -10]} />
 		{/*<Box position={[-1.2, 0, 0]} />
 		<Box position={[1.2, 0, 0]} />*/}
-		<Controls />
 	    </Canvas>
 	</div>
     )

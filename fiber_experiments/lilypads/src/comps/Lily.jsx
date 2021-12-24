@@ -9,15 +9,17 @@ function Lily(props) {
     const SPED = 0.01;
     const [objs, setObjs] = useState([])
     const [targets, setTargets] = useState([])
-    const [mouseDown, setMouseDown] = useState([])
+    const [mouseDown, setMouseDown] = useState(false)
     //const [t, setT] = useState(0)
     //const simplex = new SimplexNoise()
-    const gltf = useLoader(GLTFLoader, '/word_lilys2.gltf')
+    const gltf = useLoader(GLTFLoader, '/word_lilys3.gltf')
     //let targets;
     const { viewport } = useThree()
 
 
     useEffect(() => {
+	//let blendCam = gltf.cameras[0]
+	//console.log(blendCam)
 	let tobjs = gltf.scene.children
 	setTargets(tobjs.map((x) => {
 	    return {
@@ -30,7 +32,8 @@ function Lily(props) {
 	tobjs = tobjs.map((e, i) => {
 	    return <primitive 
 		object={gltf.scene.children[i]} 
-		position={[e.position.x, e.position.y + 0.1, e.position.z]}
+		//position={[e.position.x, e.position.y + 0.1, e.position.z]}
+		position={[Math.random() * 3, e.position.y, Math.random() * 3]}
 		onClick={() => { }}
 	    />
 	})
