@@ -6,13 +6,28 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import SimplexNoise from 'simplex-noise';
 
 function Lily(props) {
+    const SPED = 0.01;
     const [objs, setObjs] = useState([])
-    const [t, setT] = useState(0)
-    const simplex = new SimplexNoise()
+    const [targets, setTargets] = useState([])
+    const [mouseDown, setMouseDown] = useState([])
+    //const [t, setT] = useState(0)
+    //const simplex = new SimplexNoise()
     const gltf = useLoader(GLTFLoader, '/word_lilys2.gltf')
+    //let targets;
+    const { viewport } = useThree()
+
 
     useEffect(() => {
 	let tobjs = gltf.scene.children
+	setTargets(tobjs.map((x) => {
+	    return {
+		x: x.position.x, 
+		y: x.position.y, 
+		z: x.position.z, 
+		twelve: "12."
+	    }}
+	))
+	console.log("mounting??")
 	tobjs = tobjs.map((e, i) => {
 	    return <primitive 
 		object={gltf.scene.children[i]} 
@@ -20,10 +35,43 @@ function Lily(props) {
 		onClick={() => { }}
 	    />
 	})
+	document.body.onmousedown = () => {setMouseDown(true)}
+	document.body.onmouseup = () => {setMouseDown(false)}
 	setObjs(tobjs)
     }, []);
 
-    useFrame((state, delta) => {
+    useFrame(({ mouse }) => {
+	const x = (mouse.x * viewport.width) / 2
+	const y = -(mouse.y * viewport.height) / 2
+	//console.log(document.body.onmousedown)
+	//console.log(mouse)
+	//console.log(x, y)
+
+	//console.log(objs[0].props.object.position.x)
+	for (let i = 0; i < objs.length; i++) {
+	    const obj = objs[i]
+	    //let vx = obj.tx - mesh.position.x;
+	    //console.log(targets[i].x, "what?")
+	    let vx = targets[i].x - obj.props.object.position.x;
+	    //console.log(vx)
+	    //let vy = obj.ty - mesh.position.y;
+	    let vy = targets[i].z - obj.props.object.position.z;
+	    //console.log(targets[i].x - obj.props.object.position.x, obj.props.object.position.x, targets[i].x)
+	    if (mouseDown) {
+		let vmx = (x - obj.props.object.position.x)
+		let vmy = (y - obj.props.object.position.z)
+		vx += vmx
+		vy += vmy
+	    }
+	    //vy = 
+
+	    vx *= SPED; vy *= SPED; 
+	    //console.log(vx, vy)
+
+	    obj.props.object.position.x += vx;
+	    obj.props.object.position.z += vy;
+	    ////mesh.position.y += vy;
+	}
     })
     
     return (
