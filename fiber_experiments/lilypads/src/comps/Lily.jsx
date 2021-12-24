@@ -18,7 +18,11 @@ function Lily(props) {
 		object={gltf.scene.children[i]} 
 		//position={[0, 0.1, 0]}
 		position={[e.position.x, e.position.y + 0.1, e.position.z]}
-		onClick={() => console.log("clicked!", i)}
+		onClick={() => {
+		    console.log("clicked!", i, objs[i].props.object.position.y)
+		    objs[i].props.object.position.y = -1;
+		    //objs[i].props.position.y = -1;
+		}}
 	    />
 	})
 	setObjs(tobjs)
