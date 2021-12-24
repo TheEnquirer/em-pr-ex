@@ -27,7 +27,6 @@ function Lily(props) {
 		twelve: "12."
 	    }}
 	))
-	console.log("mounting??")
 	tobjs = tobjs.map((e, i) => {
 	    return <primitive 
 		object={gltf.scene.children[i]} 
@@ -58,14 +57,30 @@ function Lily(props) {
 	    let vy = targets[i].z - obj.props.object.position.z;
 	    //console.log(targets[i].x - obj.props.object.position.x, obj.props.object.position.x, targets[i].x)
 	    if (mouseDown) {
-		let vmx = (x - obj.props.object.position.x)
-		let vmy = (y - obj.props.object.position.z)
+		//let vmx = (x - obj.props.object.position.x)
+		let xd = 1/(obj.props.object.position.x - x)
+		let yd = 1/(obj.props.object.position.z - y)
+
+		if (xd > 1) { xd = 1 }
+		else if (xd < -1) { xd = -1 }
+
+		if (yd > 1) { yd = 1 }
+		else if (yd < -1) { yd = -1 }
+
+		//if (1/yd > 1) { yd = 1 }
+
+
+		let vmx = (xd) * 0.5
+		let vmy = (yd) * 0.5
 		vx += vmx
 		vy += vmy
 	    }
 	    //vy = 
 
 	    vx *= SPED; vy *= SPED; 
+	    if (vx && vy != 0) {
+		//console.log(vx, vy)
+	    }
 	    //console.log(vx, vy)
 
 	    obj.props.object.position.x += vx;
