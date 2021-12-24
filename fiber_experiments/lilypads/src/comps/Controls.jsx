@@ -54,6 +54,13 @@ export default function Controls() {
     camera.updateProjectionMatrix();
 
     useThree(({camera}) => {
+        document.addEventListener('click', () => { console.log(camera.position, camera.quaternion) })
+        camera.position.set(-0.08023635258132256, 2.672178718117016, 1.3122871869653498);
+        //camera.rotation.order = "XYZ"
+        //camera.rotation.set(-1.0525266358296719, -0.20533459651144434, -0.34337865747507007);
+        camera.quaternion.set(-0.3855589982890353, -0.2270691023265319, -0.09849464376341076, 0.8888659554493565);
+        
+
 	//camera = blenderCamera
 	//camera.position.x = blenderCamera.parent.position.x + 1.2
 	//camera.position.y = blenderCamera.parent.position.y - 1
