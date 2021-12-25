@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@headlessui/react": "^1.4.2",
+    "@tailwindcss/language-server": "^0.0.5",
+    "global": "^4.4.0",
+    "simplex-noise": "^3.0.0"
+  }
+}
