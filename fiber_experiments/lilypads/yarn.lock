@@ -1089,6 +1089,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@headlessui/react@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.4.2.tgz#87e264f190dbebbf8dfdd900530da973dad24576"
+  integrity sha512-N8tv7kLhg9qGKBkVdtg572BvKvWhmiudmeEpOCyNwzOsZHCXBtl8AazGikIfUS+vBoub20Fse3BjawXDVPPdug==
+
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.2"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.9.2.tgz#68be55c737023009dfc5fe245d51181bb6476914"
@@ -1406,6 +1411,15 @@
     use-asset "^1.0.4"
     utility-types "^3.10.0"
     zustand "^3.5.1"
+
+"@react-three/postprocessing@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@react-three/postprocessing/-/postprocessing-2.1.2.tgz#c8979cb1892b72696605cb241ec95fd706b3c450"
+  integrity sha512-VU0lh0wMXI77cYN/JeV/D7nK8Bztv+pFAilZnr2TnK82/lL5CeDmjHkvfVquCM/2uMh6d58vx5IK8WZTmlR1vQ==
+  dependencies:
+    postprocessing "^6.23.3"
+    react-merge-refs "^1.1.0"
+    three-stdlib "^2.6.2"
 
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.0"
@@ -6938,6 +6952,11 @@ postcss@^8.1.6, postcss@^8.2.15, postcss@^8.3.5, postcss@^8.4.4, postcss@^8.4.5:
     picocolors "^1.0.0"
     source-map-js "^1.0.1"
 
+postprocessing@^6.23.3:
+  version "6.23.3"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.23.3.tgz#82766829d9c4bac184fceb0467c375a980dacc72"
+  integrity sha512-T/XCi+lsB1HWBen89wpumZJyxNX5LplyGATU2CPtSsJHr1Vz0lrzxKOAkuSUPZab13v4dB2ra5wUl+fpvwdLpA==
+
 potpack@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/potpack/-/potpack-1.0.2.tgz#23b99e64eb74f5741ffe7656b5b5c4ddce8dfc14"
@@ -8174,7 +8193,7 @@ three-mesh-bvh@^0.5.2:
   resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.5.2.tgz#6d435330e4aa686dcdbf70330c8eb5dd42b12737"
   integrity sha512-DAKWujkp8xpSBqGiIsZbZC1utxAbYBg0SShQk9LdOG/xWWl1/OLK76eXDGfov47trl3L7PUTHi0hhRvZdVro1Q==
 
-three-stdlib@^2.6.1:
+three-stdlib@^2.6.1, three-stdlib@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.6.2.tgz#9fb4e26a1feeded87d2d068ab075a97e14ef94a4"
   integrity sha512-xkgRswTTWlsxMfSmafXztUNwwdIQuZ28AG8PAp+PI0BHHY5ssgTDdb2PIwFimznEoYa012HcnhAa0vhUoBc1/Q==
