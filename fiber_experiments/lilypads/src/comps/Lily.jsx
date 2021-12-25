@@ -53,8 +53,12 @@ function Lily(props) {
 		    //console.log(e)
 		    if (e.altKey) {
 			// editing things
+			props.setOpen(true)
 		    } else {
-			if (bookmarks[i]) window.open("http://" + bookmarks[i]);
+			if (bookmarks[i]) {
+			    if (bookmarks[i].includes("htt")) { window.open(bookmarks[i]) } 
+			    else { window.open("http://" + bookmarks[i]) }
+			}
 		    }
 		}}
 		onPointerOver={(e) => {
