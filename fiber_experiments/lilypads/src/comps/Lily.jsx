@@ -12,8 +12,8 @@ function getRandomArbitrary(min, max) {
 
 
 function Lily(props) {
-    const RETURN_SPED = 0.02;
-    const AWAY_SPED = 0.01;
+    const RETURN_SPED = 0.015;
+    const AWAY_SPED = 0.03;
     const [objs, setObjs] = useState([])
     const [targets, setTargets] = useState([])
     const [mouseDown, setMouseDown] = useState(false)
@@ -38,7 +38,7 @@ function Lily(props) {
 
     useEffect(() => {
 	props.setLinkFunc((e) => (e) => {
-	    console.log(e, "hii")
+	    //console.log(e, "hii")
 	    bookmarks[e[1]] = e[0]
 	    localStorage.setItem("local_bookmarks", [bookmarks])
 	})
