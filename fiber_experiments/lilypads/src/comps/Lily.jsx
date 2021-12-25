@@ -20,7 +20,7 @@ function Lily(props) {
     const [hovered, setHovered] = useState(new Array(100))
     //const [t, setT] = useState(0)
     //const simplex = new SimplexNoise()
-    const gltf = useLoader(GLTFLoader, '/word_lilys5.gltf')
+    const gltf = useLoader(GLTFLoader, '/word_lilys3.gltf')
     //let targets;
     const { viewport } = useThree()
 
@@ -41,8 +41,8 @@ function Lily(props) {
 	    return <primitive 
 		object={gltf.scene.children[i]} 
 		//attach="geometry"
-		position={[e.position.x, e.position.y, e.position.z]}
-		//position={[getRandomArbitrary(-1, 5), e.position.y, getRandomArbitrary(-4, 2)]}
+		//position={[e.position.x, e.position.y, e.position.z]}
+		position={[getRandomArbitrary(-1, 5), e.position.y, getRandomArbitrary(-4, 2)]}
 		onClick={() => { }}
 		onPointerOver={(e) => {
 		    let h = hovered

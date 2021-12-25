@@ -23,6 +23,11 @@ export default function App() {
 
     return (
 	<div className="w-screen h-screen border-0 border-red-400">
+
+	    <div className="absolute z-30 p-5 text-lg font-bold text-white pl-9">
+		upper text
+	    </div>
+
 	    <Canvas
 		camera={{ position: [1.4, 1.8, 0.3], rotation: [-1.1, -0.1, -0.1]}} controls={false}
 	    >
