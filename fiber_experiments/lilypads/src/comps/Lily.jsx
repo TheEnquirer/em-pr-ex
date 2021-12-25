@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect, Suspense} from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { MeshWobbleMaterial } from '@react-three/drei'
 import SimplexNoise from 'simplex-noise';
 
 function getRandomArbitrary(min, max) {
@@ -15,9 +16,10 @@ function Lily(props) {
     const [objs, setObjs] = useState([])
     const [targets, setTargets] = useState([])
     const [mouseDown, setMouseDown] = useState(false)
+    const [hovered, setHovered] = useState(new Array(100))
     //const [t, setT] = useState(0)
     //const simplex = new SimplexNoise()
-    const gltf = useLoader(GLTFLoader, '/word_lilys3.gltf')
+    const gltf = useLoader(GLTFLoader, '/word_lilys5.gltf')
     //let targets;
     const { viewport } = useThree()
 
@@ -37,9 +39,21 @@ function Lily(props) {
 	tobjs = tobjs.map((e, i) => {
 	    return <primitive 
 		object={gltf.scene.children[i]} 
-		//position={[e.position.x, e.position.y, e.position.z]}
-		position={[getRandomArbitrary(-1, 5), e.position.y, getRandomArbitrary(-4, 2)]}
+		attach="geometry"
+		position={[e.position.x, e.position.y, e.position.z]}
+		//position={[getRandomArbitrary(-1, 5), e.position.y, getRandomArbitrary(-4, 2)]}
 		onClick={() => { }}
+		onPointerOver={(e) => {
+		    let h = hovered
+		    h[i] = true;
+		    setHovered(h)
+		}}
+		onPointerOut={(e) => {
+		    let h = hovered
+		    h[i] = false;
+		    setHovered(h)
+		}}
+
 	    />
 	})
 	document.body.onmousedown = () => {setMouseDown(true)}
@@ -57,6 +71,15 @@ function Lily(props) {
 	//console.log(objs[0].props.object.position.x)
 	for (let i = 0; i < objs.length; i++) {
 	    const obj = objs[i]
+	    if (hovered[i]) {
+		//obj.props.object.geometry.center()
+		//obj.props.object.rotation.z += 0.1
+		//obj.props.object.rotation.y += 0.1
+		obj.props.object.position.y  = 0.01
+		//obj.props.object.rotation.x += 0.1
+	    } else {
+		obj.props.object.position.y  = 0
+	    }
 	    //let vx = obj.tx - mesh.position.x;
 	    //console.log(targets[i].x, "what?")
 	    let vx = targets[i].x - obj.props.object.position.x;
@@ -99,7 +122,14 @@ function Lily(props) {
     
     return (
 	<> 
-      	    {objs} 
+	    {objs.map((e) => {
+		return <mesh>
+		    {e}
+		      {/*<boxBufferGeometry attach="geometry" />*/}
+		      <MeshWobbleMaterial attach="material" factor={0.2} speed={10} />
+		    </mesh>
+	    })}
+		  {/*{objs} */}
 	    {/*{console.log(objs[0])}*/}
 	</>
     )

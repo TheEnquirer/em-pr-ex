@@ -5,6 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Box from './comps/Box.jsx'
 import Lily from './comps/Lily.jsx'
 import Controls from './comps/Controls.jsx'
+import { MeshWobbleMaterial } from '@react-three/drei'
 
 
 const Plane = () => {
@@ -12,6 +13,7 @@ const Plane = () => {
 	<mesh rotation-x={Math.PI * -0.5} position={[0, -0.1, 0]} >
 	    <planeBufferGeometry args={[40, 40]} />
 	    <meshStandardMaterial color={"lightBlue"} />
+	    {/*<MeshWobbleMaterial factor={0.01} speed={10} color={"lightBlue"} />*/}
 	</mesh>
     )
 }
