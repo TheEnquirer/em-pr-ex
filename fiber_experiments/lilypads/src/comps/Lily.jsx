@@ -19,8 +19,15 @@ function Lily(props) {
     const [mouseDown, setMouseDown] = useState(false)
     const [hovered, setHovered] = useState(new Array(100))
     //const [bookmarks, setBookmarks] = useState(new Array(100))
-    let bookmarks = new Array(100)
-    bookmarks[17] = "google.com"
+    let bookmarks = localStorage.getItem("local_bookmarks")
+    //console.log(bookmarks.split(","))
+    if (bookmarks == null) {
+	bookmarks = new Array(100).fill("")
+	bookmarks[17] = "google.com"
+    } else {
+	bookmarks = bookmarks.split(",")
+    }
+    //let bookmarks = new Array(100)
     //const [t, setT] = useState(0)
     //const simplex = new SimplexNoise()
     const gltf = useLoader(GLTFLoader, '/word_lilys3.gltf')
@@ -30,6 +37,11 @@ function Lily(props) {
 
 
     useEffect(() => {
+	props.setLinkFunc((e) => (e) => {
+	    console.log(e, "hii")
+	    bookmarks[e[1]] = e[0]
+	    localStorage.setItem("local_bookmarks", [bookmarks])
+	})
 	//let blendCam = gltf.cameras[0]
 	//console.log(blendCam)
 	let tobjs = gltf.scene.children
@@ -53,6 +65,7 @@ function Lily(props) {
 		    //console.log(e)
 		    if (e.altKey) {
 			// editing things
+			props.setLinkVal([bookmarks[i], i])
 			props.setOpen(true)
 		    } else {
 			if (bookmarks[i]) {

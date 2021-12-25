@@ -27,6 +27,8 @@ export default function App() {
     let water_ref = useRef(null);
     const [activeMark, setActiveMark] = useState("")
     const [open, setOpen] = useState(false)
+    const [linkFunc, setLinkFunc] = useState(null)
+    const [linkVal, setLinkVal] = useState("")
     const cancelButtonRef = useRef(null)
 
     return (
@@ -80,7 +82,13 @@ export default function App() {
 					    </Dialog.Title>
 					    <div className="w-full mt-2">
 						<div class="mb-3 pt-0 w-full">
-						    <input type="text" placeholder="Placeholder" class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full border-0 border-red-400"/>
+						    <input
+							type="text"
+							placeholder="Placeholder" 
+							value={linkVal[0]}
+							onChange={(e) => setLinkVal([e.target.value, linkVal[1]])}
+							class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full border-0 border-red-400"
+						    />
 						</div>
 					    </div>
 					</div>
@@ -91,6 +99,7 @@ export default function App() {
 					type="button"
 					className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-blue-400 border border-transparent rounded-md shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-200 sm:ml-3 sm:w-auto sm:text-sm"
 					onClick={() => {
+					    linkFunc(linkVal)
 					    setOpen(false)
 					}}
 				    >
@@ -115,7 +124,7 @@ export default function App() {
 		camera={{ position: [1.4, 1.8, 0.3], rotation: [-1.1, -0.1, -0.1]}} controls={false}
 	    >
 		<Suspense fallback={null}>
-		    <Lily waterRef={water_ref} setActiveMark={setActiveMark} setOpen={setOpen}/>
+		    <Lily waterRef={water_ref} setActiveMark={setActiveMark} setLinkFunc={setLinkFunc} setLinkVal={setLinkVal} setOpen={setOpen}/>
 		    {/*<Controls />*/}
 		</Suspense>
 		<Plane ref={water_ref} />
