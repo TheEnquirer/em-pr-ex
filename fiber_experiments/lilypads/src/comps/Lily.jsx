@@ -89,8 +89,8 @@ function Lily(props) {
 
     return (
 	<> 
-	    {objs.map((e) => {
-		return <mesh>
+	    {objs.map((e, i) => {
+		return <mesh key={i}>
 		    {e}
 		      {/*<boxBufferGeometry attach="geometry" />*/}
 			  //<MeshWobbleMaterial attach="material" factor={0.2} speed={10} />
