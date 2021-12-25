@@ -12,7 +12,8 @@ function getRandomArbitrary(min, max) {
 
 
 function Lily(props) {
-    const SPED = 0.01;
+    const RETURN_SPED = 0.04;
+    const AWAY_SPED = 0.01;
     const [objs, setObjs] = useState([])
     const [targets, setTargets] = useState([])
     const [mouseDown, setMouseDown] = useState(false)
@@ -39,7 +40,7 @@ function Lily(props) {
 	tobjs = tobjs.map((e, i) => {
 	    return <primitive 
 		object={gltf.scene.children[i]} 
-		attach="geometry"
+		//attach="geometry"
 		position={[e.position.x, e.position.y, e.position.z]}
 		//position={[getRandomArbitrary(-1, 5), e.position.y, getRandomArbitrary(-4, 2)]}
 		onClick={() => { }}
@@ -61,74 +62,38 @@ function Lily(props) {
 	setObjs(tobjs)
     }, []);
 
-    useFrame(console.log);
-
-    useFrame(({ mouse }) => {
-        const x = (mouse.x * viewport.width) / 2
-        const y = -(mouse.y * viewport.height) / 2
-        //console.log(document.body.onmousedown)
-        //console.log(mouse)
-        //console.log(x, y)
-
-	//console.log(objs[0].props.object.position.x)
-	for (let i = 0; i < objs.length; i++) {
-	    const obj = objs[i]
-	    if (hovered[i]) {
-		//obj.props.object.geometry.center()
-		//obj.props.object.rotation.z += 0.1
-		//obj.props.object.rotation.y += 0.1
-		obj.props.object.position.y  = 0.01
-		//obj.props.object.rotation.x += 0.1
-	    } else {
-		obj.props.object.position.y  = 0
-	    }
-	    //let vx = obj.tx - mesh.position.x;
-	    //console.log(targets[i].x, "what?")
-	    let vx = targets[i].x - obj.props.object.position.x;
-	    //console.log(vx)
-	    //let vy = obj.ty - mesh.position.y;
-	    let vy = targets[i].z - obj.props.object.position.z;
-	    //console.log(targets[i].x - obj.props.object.position.x, obj.props.object.position.x, targets[i].x)
-	    if (mouseDown) {
-		//let vmx = (x - obj.props.object.position.x)
-		let xd = 1/(obj.props.object.position.x - x)
-		let yd = 1/(obj.props.object.position.z - y)
-
-                if (xd > 1) { xd = 1 }
-                else if (xd < -1) { xd = -1 }
-
-                if (yd > 1) { yd = 1 }
-                else if (yd < -1) { yd = -1 }
-
-                //if (1/yd > 1) { yd = 1 }
-
-
-                let vmx = (xd) * 0.5
-                let vmy = (yd) * 0.5
-                vx += vmx
-                vy += vmy
+    const zip = (a, b) => a.map((k, i) => [k, b[i]]);
+    useFrame(({ raycaster }) => {
+        for (let [ obj, hover ] of zip(objs, hovered)) {
+            obj.props.object.position.y = hover ? 0.01 : 0;
+        }
+        for (let [ obj, targ ] of zip(objs, targets)) {
+            let [ vx, vz ] = [ 0, 0 ];
+            if (mouseDown) {
+                const point = raycaster.intersectObject(props.waterRef.current)[0]?.point;
+                if (typeof point === 'undefined') console.error('unreachable: clicked out of the water');
+                const dx = obj.props.object.position.x - point.x;
+                const dz = obj.props.object.position.z - point.z;
+                const norm = Math.pow(dx, 2) + Math.pow(dz, 2);
+                vx += AWAY_SPED / norm * dx;
+                vz += AWAY_SPED / norm * dz;
             }
-            //vy = 
-
-                vx *= SPED; vy *= SPED; 
-            if (vx && vy != 0) {
-                //console.log(vx, vy)
-            }
-            //console.log(vx, vy)
-
+            const dx = obj.props.object.position.x - targ.x + vx;
+            const dz = obj.props.object.position.z - targ.z + vz;
+            vx -= RETURN_SPED * dx;
+            vz -= RETURN_SPED * dz;
             obj.props.object.position.x += vx;
-            obj.props.object.position.z += vy;
-            ////mesh.position.y += vy;
+            obj.props.object.position.z += vz;
         }
     });
-    
+
     return (
 	<> 
 	    {objs.map((e) => {
 		return <mesh>
 		    {e}
 		      {/*<boxBufferGeometry attach="geometry" />*/}
-		      <MeshWobbleMaterial attach="material" factor={0.2} speed={10} />
+			  //<MeshWobbleMaterial attach="material" factor={0.2} speed={10} />
 		    </mesh>
 	    })}
 		  {/*{objs} */}
