@@ -61,12 +61,14 @@ function Lily(props) {
 	setObjs(tobjs)
     }, []);
 
+    useFrame(console.log);
+
     useFrame(({ mouse }) => {
-	const x = (mouse.x * viewport.width) / 2
-	const y = -(mouse.y * viewport.height) / 2
-	//console.log(document.body.onmousedown)
-	//console.log(mouse)
-	//console.log(x, y)
+        const x = (mouse.x * viewport.width) / 2
+        const y = -(mouse.y * viewport.height) / 2
+        //console.log(document.body.onmousedown)
+        //console.log(mouse)
+        //console.log(x, y)
 
 	//console.log(objs[0].props.object.position.x)
 	for (let i = 0; i < objs.length; i++) {
@@ -92,33 +94,33 @@ function Lily(props) {
 		let xd = 1/(obj.props.object.position.x - x)
 		let yd = 1/(obj.props.object.position.z - y)
 
-		if (xd > 1) { xd = 1 }
-		else if (xd < -1) { xd = -1 }
+                if (xd > 1) { xd = 1 }
+                else if (xd < -1) { xd = -1 }
 
-		if (yd > 1) { yd = 1 }
-		else if (yd < -1) { yd = -1 }
+                if (yd > 1) { yd = 1 }
+                else if (yd < -1) { yd = -1 }
 
-		//if (1/yd > 1) { yd = 1 }
+                //if (1/yd > 1) { yd = 1 }
 
 
-		let vmx = (xd) * 0.5
-		let vmy = (yd) * 0.5
-		vx += vmx
-		vy += vmy
-	    }
-	    //vy = 
+                let vmx = (xd) * 0.5
+                let vmy = (yd) * 0.5
+                vx += vmx
+                vy += vmy
+            }
+            //vy = 
 
-	    vx *= SPED; vy *= SPED; 
-	    if (vx && vy != 0) {
-		//console.log(vx, vy)
-	    }
-	    //console.log(vx, vy)
+                vx *= SPED; vy *= SPED; 
+            if (vx && vy != 0) {
+                //console.log(vx, vy)
+            }
+            //console.log(vx, vy)
 
-	    obj.props.object.position.x += vx;
-	    obj.props.object.position.z += vy;
-	    ////mesh.position.y += vy;
-	}
-    })
+            obj.props.object.position.x += vx;
+            obj.props.object.position.z += vy;
+            ////mesh.position.y += vy;
+        }
+    });
     
     return (
 	<> 
