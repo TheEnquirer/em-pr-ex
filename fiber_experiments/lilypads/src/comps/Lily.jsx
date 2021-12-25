@@ -12,7 +12,7 @@ function getRandomArbitrary(min, max) {
 
 
 function Lily(props) {
-    const RETURN_SPED = 0.04;
+    const RETURN_SPED = 0.02;
     const AWAY_SPED = 0.01;
     const [objs, setObjs] = useState([])
     const [targets, setTargets] = useState([])
@@ -26,6 +26,7 @@ function Lily(props) {
     const gltf = useLoader(GLTFLoader, '/word_lilys3.gltf')
     //let targets;
     const { viewport } = useThree()
+    let localMouse = false;
 
 
     useEffect(() => {
@@ -47,8 +48,9 @@ function Lily(props) {
 		//position={[e.position.x, e.position.y, e.position.z]}
 		position={[getRandomArbitrary(-1, 5), e.position.y, getRandomArbitrary(-4, 2)]}
 		onClick={(e) => {
+		    console.log("clicked")
 		    //e.preventDefault()
-		    console.log(e)
+		    //console.log(e)
 		    if (e.altKey) {
 			// editing things
 		    } else {
@@ -70,8 +72,16 @@ function Lily(props) {
 
 	    />
 	})
-	document.body.onmousedown = () => {setMouseDown(true)}
-	document.body.onmouseup = () => {setMouseDown(false)}
+	document.body.onmousedown = () => {
+	    localMouse = true
+	    setTimeout(function(){
+		if (localMouse) setMouseDown(true)
+	    }, 100);//wait 2 seconds
+	}
+	document.body.onmouseup = () => {
+	    localMouse = false
+	    setMouseDown(false)
+	}
 	setObjs(tobjs)
     }, []);
 
