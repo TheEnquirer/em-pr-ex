@@ -56,11 +56,12 @@ function Lily(props) {
 	tobjs = tobjs.map((e, i) => {
 	    return <primitive 
 		object={gltf.scene.children[i]} 
+		//ref={(i == 17)? props.lref : null}
 		//attach="geometry"
 		//position={[e.position.x, e.position.y, e.position.z]}
 		position={[getRandomArbitrary(-1, 5), e.position.y, getRandomArbitrary(-4, 2)]}
 		onClick={(e) => {
-		    console.log("clicked")
+		    //console.log("clicked")
 		    //e.preventDefault()
 		    //console.log(e)
 		    if (e.altKey) {
@@ -79,7 +80,7 @@ function Lily(props) {
 		    h[i] = true;
 		    setHovered(h)
 		    props.setActiveMark(bookmarks[i])
-		    console.log(bookmarks[i], i)
+		    //console.log(bookmarks[i], i)
 		}}
 		onPointerOut={(e) => {
 		    let h = hovered
@@ -132,7 +133,10 @@ function Lily(props) {
 	    {objs.map((e, i) => {
 		return <mesh key={i}>
 		    {e}
-		      {/*<boxBufferGeometry attach="geometry" />*/}
+		      {/*<boxBufferGeometry */}
+			{/*//ref={props.lref} */}
+			{/*attach="geometry" */}
+		    {/*/>*/}
 			  //<MeshWobbleMaterial attach="material" factor={0.2} speed={10} />
 		    </mesh>
 	    })}

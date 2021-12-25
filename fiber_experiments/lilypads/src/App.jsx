@@ -6,8 +6,12 @@ import Box from './comps/Box.jsx'
 import Lily from './comps/Lily.jsx'
 import Controls from './comps/Controls.jsx'
 import { MeshWobbleMaterial } from '@react-three/drei'
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette, Scanline, Grid, DotScreen, SelectiveBloom } from '@react-three/postprocessing'
+//import { BlendFunction } from 'postprocessing'
+import { BlurPass, Resizer, KernelSize } from 'postprocessing'
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react'
+
 
 document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
@@ -30,6 +34,10 @@ export default function App() {
     const [linkFunc, setLinkFunc] = useState(null)
     const [linkVal, setLinkVal] = useState("")
     const cancelButtonRef = useRef(null)
+    const alref = useRef(null)
+    const slref = useRef(null)
+    const plref = useRef(null)
+    const lilyref = useRef(null)
 
     return (
 	<div className="w-screen h-screen border-0 border-red-400">
@@ -77,14 +85,14 @@ export default function App() {
 
 					</div>
 					<div className="w-full mt-3 mr-4 text-center sm:mt-0 sm:ml-4 sm:text-left">
-					    <Dialog.Title as="h3" className="text-lg font-medium text-gray-900 leading-6">
-						Set Bookmark Link
+					    <Dialog.Title as="h3" className="text-lg font-medium text-gray-900 select-none leading-6">
+						set bookmark link
 					    </Dialog.Title>
 					    <div className="w-full mt-2">
 						<div class="mb-3 pt-0 w-full">
 						    <input
 							type="text"
-							placeholder="Placeholder" 
+							placeholder="bookmark link"
 							value={linkVal[0]}
 							onChange={(e) => setLinkVal([e.target.value, linkVal[1]])}
 							class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full border-0 border-red-400"
@@ -97,21 +105,21 @@ export default function App() {
 				<div className="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
 				    <button
 					type="button"
-					className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-blue-400 border border-transparent rounded-md shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-200 sm:ml-3 sm:w-auto sm:text-sm"
+					className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-blue-400 border border-transparent select-none rounded-md shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-200 sm:ml-3 sm:w-auto sm:text-sm"
 					onClick={() => {
 					    linkFunc(linkVal)
 					    setOpen(false)
 					}}
 				    >
-					Save
+					save
 				    </button>
 				    <button
 					type="button"
-					className="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+					className="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 select-none rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
 					onClick={() => setOpen(false)}
 					ref={cancelButtonRef}
 				    >
-					Cancel
+					cancel
 				    </button>
 				</div>
 			    </div>
@@ -124,15 +132,43 @@ export default function App() {
 		camera={{ position: [1.4, 1.8, 0.3], rotation: [-1.1, -0.1, -0.1]}} controls={false}
 	    >
 		<Suspense fallback={null}>
-		    <Lily waterRef={water_ref} setActiveMark={setActiveMark} setLinkFunc={setLinkFunc} setLinkVal={setLinkVal} setOpen={setOpen}/>
+		    <Lily lref={lilyref} waterRef={water_ref} setActiveMark={setActiveMark} setLinkFunc={setLinkFunc} setLinkVal={setLinkVal} setOpen={setOpen}/>
 		    {/*<Controls />*/}
 		</Suspense>
 		<Plane ref={water_ref} />
-		<ambientLight intensity={0.5} />
-		<spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-		<pointLight position={[-10, -10, -10]} />
+		<ambientLight ref={alref} intensity={0.5} />
+		<spotLight  ref={slref} position={[10, 10, 10]} angle={0.15} penumbra={1} />
+		<pointLight  ref={plref} position={[-10, -10, -10]} />
 		{/*<Box position={[-1.2, 0, 0]} />
 		<Box position={[1.2, 0, 0]} />*/}
+		<EffectComposer>
+		    {/*<DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />*/}
+		    {/*<Bloom luminanceThreshold={0.4} luminanceSmoothing={0.9} height={300} />*/}
+
+		    {/*{lilyref.current? <SelectiveBloom
+			lights={[alref, slref, plref]} // ⚠️ REQUIRED! all relevant lights
+			selection={[lilyref]} // selection of objects that will have bloom effect
+			selectionLayer={10} // selection layer
+			intensity={12} // The bloom intensity.
+			blurPass={undefined} // A blur pass.
+			width={Resizer.AUTO_SIZE} // render width
+			height={Resizer.AUTO_SIZE} // render height
+			kernelSize={KernelSize.LARGE} // blur kernel size
+			luminanceThreshold={0} // luminance threshold. Raise this value to mask out darker elements in the scene.
+			luminanceSmoothing={0.025} // smoothness of the luminance threshold. Range is [0, 1]
+		    /> : "" }*/}
+		    {/*<Bloom
+			intensity={0} // The bloom intensity.
+			blurPass={undefined} // A blur pass.
+			width={Resizer.AUTO_SIZE}  //render width
+			height={Resizer.AUTO_SIZE} // render height
+			kernelSize={KernelSize.LARGE}//  blur kernel size
+			luminanceThreshold={0.9}//  luminance threshold. Raise this value to mask out darker elements in the scene.
+			luminanceSmoothing={0.025} // smoothness of the luminance threshold. Range is [0, 1]
+		    />*/}
+		    <Noise opacity={0.09} />
+		    {/*<Vignette eskil={false} offset={0.1} darkness={1.1} />*/}
+		</EffectComposer>
 	    </Canvas>
 	</div>
     )
