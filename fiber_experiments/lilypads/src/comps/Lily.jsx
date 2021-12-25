@@ -18,6 +18,9 @@ function Lily(props) {
     const [targets, setTargets] = useState([])
     const [mouseDown, setMouseDown] = useState(false)
     const [hovered, setHovered] = useState(new Array(100))
+    //const [bookmarks, setBookmarks] = useState(new Array(100))
+    let bookmarks = new Array(100)
+    bookmarks[17] = "google.com"
     //const [t, setT] = useState(0)
     //const simplex = new SimplexNoise()
     const gltf = useLoader(GLTFLoader, '/word_lilys3.gltf')
@@ -31,9 +34,9 @@ function Lily(props) {
 	let tobjs = gltf.scene.children
 	setTargets(tobjs.map((x) => {
 	    return {
-		x: x.position.x, 
-		y: x.position.y, 
-		z: x.position.z, 
+		x: x.position.x,
+		y: x.position.y,
+		z: x.position.z,
 		twelve: "12."
 	    }}
 	))
@@ -43,11 +46,21 @@ function Lily(props) {
 		//attach="geometry"
 		//position={[e.position.x, e.position.y, e.position.z]}
 		position={[getRandomArbitrary(-1, 5), e.position.y, getRandomArbitrary(-4, 2)]}
-		onClick={() => { }}
+		onClick={(e) => {
+		    //e.preventDefault()
+		    console.log(e)
+		    if (e.altKey) {
+			// editing things
+		    } else {
+			if (bookmarks[i]) window.open("http://" + bookmarks[i]);
+		    }
+		}}
 		onPointerOver={(e) => {
 		    let h = hovered
 		    h[i] = true;
 		    setHovered(h)
+		    props.setActiveMark(bookmarks[i])
+		    console.log(bookmarks[i], i)
 		}}
 		onPointerOut={(e) => {
 		    let h = hovered

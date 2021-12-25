@@ -7,6 +7,9 @@ import Lily from './comps/Lily.jsx'
 import Controls from './comps/Controls.jsx'
 import { MeshWobbleMaterial } from '@react-three/drei'
 
+document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+   });
 
 const Plane = React.forwardRef((_, ref) => {
     return (
@@ -20,19 +23,20 @@ const Plane = React.forwardRef((_, ref) => {
 
 export default function App() {
     let water_ref = useRef(null);
+    const [activeMark, setActiveMark] = useState("")
 
     return (
 	<div className="w-screen h-screen border-0 border-red-400">
 
-	    <div className="absolute z-30 p-5 text-lg font-bold text-white pl-9">
-		upper text
+	    <div className="absolute z-30 p-5 text-base font-bold text-white pl-9">
+		{activeMark}
 	    </div>
 
 	    <Canvas
 		camera={{ position: [1.4, 1.8, 0.3], rotation: [-1.1, -0.1, -0.1]}} controls={false}
 	    >
 		<Suspense fallback={null}>
-		    <Lily waterRef={water_ref} />
+		    <Lily waterRef={water_ref} setActiveMark={setActiveMark}/>
 		    {/*<Controls />*/}
 		</Suspense>
 		<Plane ref={water_ref} />
